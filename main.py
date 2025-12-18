@@ -1,6 +1,7 @@
 from mss import mss, tools
 from pathlib import Path
 import time
+import keyboard
 
 class Screenshoter:
     def __init__(self, path: Path, monitor: int = 1):
@@ -11,6 +12,7 @@ class Screenshoter:
 
         self.path.mkdir(parents=True, exist_ok=True)
 
+    # BUG: this function overwrites the pictures (..01, ..02, ...)
     def take_screenshot(self) -> Path:
         self.count += 1
         filename = f"frame_{self.count:06d}.png"
@@ -27,14 +29,13 @@ def main():
     path = Path("dataset/images/train")
     shooter = Screenshoter(path=path, monitor=1)
 
-    print(f"Capturing... Press CTRL+C to stop")
-    try:
-        while True:
-            saved_to = shooter.take_screenshot()
-            print(f"Saved to: {saved_to}")
-            time.sleep(1)
-    except KeyboardInterrupt:
-        pass
+    print(f"Capturing... Press ESC to stop")
+    while True:
+        saved_to = shooter.take_screenshot()
+        print(f"Saved to: {saved_to}")
+        time.sleep(1)
+        if(keyboard.is_pressed("ESC")):
+            break
 
 if __name__ == "__main__":
     main()
