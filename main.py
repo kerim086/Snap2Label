@@ -42,9 +42,14 @@ def main():
     shooter = Screenshoter(path=path, monitor=1)
 
     print("Capturing... Press ESC to stop")
+    print("Press X to manually capture and save the image")
     while True:
         if keyboard.is_pressed("esc"):
             break
+
+        if keyboard.is_pressed("X"):
+            saved_to = shooter.take_screenshot()
+            print(f"Saved to: {saved_to}")
 
         saved_to = shooter.take_screenshot()
         print(f"Saved to: {saved_to}")
